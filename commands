@@ -1,0 +1,21 @@
+docker-machine create --driver vmwarefusion Char
+docker-machine env Char
+docker-machine create --driver virtualbox CharVB
+docker-machine env CharVB
+docker-machine ls
+
+docker-machine rm Char -y
+docker image rm -f hello-world
+
+$(docker-machine ip Char)
+docker ps -a
+
+
+
+
+docker-machine create --driver virtualbox Char
+docker-machine ip Char
+eval $(docker-machine env Char)
+docker pull hello-world
+docker run hello-world
+docker run --detach --name overlord --restart always -p $(docker-machine ip Char):5000:80 nginx
