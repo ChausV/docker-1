@@ -1,3 +1,21 @@
+docker-machine create --driver virtualbox Char
+docker-machine ip Char
+eval $(docker-machine env Char)
+docker pull hello-world
+docker run hello-world
+docker run --detach --name overlord --restart always -p $(docker-machine ip Char):5000:80 nginx
+docker inspect -f '{{ .NetworkSettings.IPAddress }}' overlord
+docker run --rm -it alpine /bin/sh
+docker run -it --name debian debian bash
+docker volume create hatchery
+docker volume ls
+docker run --detach --restart on-failure --volume hatchery:/db -e MYSQL_ROOT_PASSWORD=Kerrigan -e MYSQL_DATABASE=/db/zerglings --name spawning-pool mysql
+docker inspect -f '{{ .Config.Env }}' spawning-pool
+docker run -d --name lair -p $(docker-machine ip Char):8080:80 --link spawning-pool:mysql wordpress
+
+
+
+
 docker-machine create --driver vmwarefusion Char
 docker-machine env Char
 docker-machine create --driver virtualbox CharVB
@@ -8,14 +26,17 @@ docker-machine rm Char -y
 docker image rm -f hello-world
 
 $(docker-machine ip Char)
+docker images
 docker ps -a
+docker volume ls
 
+docker rm $(docker ps -a -f status=exited -q)
 
-
-
-docker-machine create --driver virtualbox Char
-docker-machine ip Char
-eval $(docker-machine env Char)
-docker pull hello-world
-docker run hello-world
-docker run --detach --name overlord --restart always -p $(docker-machine ip Char):5000:80 nginx
+docker start -i debian
+	apt-get update && apt-get upgrade -y
+	apt-get upgrade apt
+	apt-get install nano
+	apt-get install gcc -y
+	apt-get install man -y
+	apt-get install git
+	git clone https://github.com/ChausV/docker_test.git 1-gihub
