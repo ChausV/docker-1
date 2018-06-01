@@ -9,9 +9,18 @@ docker run --rm -it alpine /bin/sh
 docker run -it --name debian debian bash
 docker volume create hatchery
 docker volume ls
-docker run --detach --restart on-failure --volume hatchery:/db -e MYSQL_ROOT_PASSWORD=Kerrigan -e MYSQL_DATABASE=/db/zerglings --name spawning-pool mysql
+docker run --detach --restart on-failure --volume hatchery:/var/run/mysql -e MYSQL_ROOT_PASSWORD=Kerrigan -e MYSQL_DATABASE=zerglings --name spawning-pool mysql:5
 docker inspect -f '{{ .Config.Env }}' spawning-pool
 docker run -d --name lair -p $(docker-machine ip Char):8080:80 --link spawning-pool:mysql wordpress
+docker run -d --name roach-warden -p $(docker-machine ip Char):8081:80 --link spawning-pool:db phpmyadmin/phpmyadmin
+docker logs -f spawning-pool
+docker ps
+docker restart overlord
+
+
+
+
+
 
 
 
@@ -40,3 +49,7 @@ docker start -i debian
 	apt-get install man -y
 	apt-get install git
 	git clone https://github.com/ChausV/docker_test.git 1-gihub
+
+docker exec spawning-pool env
+docker logs -f lair
+
