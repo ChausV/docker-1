@@ -16,10 +16,22 @@ docker run -d --name roach-warden -p $(docker-machine ip Char):8081:80 --link sp
 docker logs -f spawning-pool
 docker ps
 docker restart overlord
-
-
-
-
+docker run --name Abathur -v /Users/vchaus/:/root -p $(docker-machine ip Char):3000:3000 -it -d python:2-slim bash
+docker swarm init --advertise-addr eth1
+docker-machine create --driver virtualbox Aiur
+docker swarm join --token SWMTKN-1-1bmqb9yyzypj671ahj65wmnw7o07w7ksp1zawc4fcplv1ze6s9-7whi81541v8qp333cw92emx5h 192.168.99.100:2377
+docker network create --driver overlay overmind
+docker service create --name orbital-command -e RABBITMQ_DEFAULT_USER=user -e RABBITMQ_DEFAULT_PASS=pass --network overmind rabbitmq
+docker service ls
+docker service create --replicas 2 --name engineering-bay -e OC_USERNAME=user -e OC_PASSWD=pass --network overmind 42school/engineering-bay
+docker service logs -f --no-task-ids --tail 10 -t engineering-bay
+docker service create --replicas 2 --name marines -e OC_USERNAME=user -e OC_PASSWD=pass --network overmind 42school/marine-squad
+docker service ps marines
+docker service scale marines=20
+docker service rm $(docker service ls --quiet)
+docker rm -f $(docker ps -a --quiet)
+docker image rm -f $(docker images --quiet)
+docker-machine rm Aiur -y
 
 
 
@@ -52,4 +64,20 @@ docker start -i debian
 
 docker exec spawning-pool env
 docker logs -f lair
+
+docker start -i Abathur
+	pip install flask
+	python root/010-docker-github/hello.py
+curl "http://192.168.99.100:3000"
+
+
+
+docker swarm init --advertise-addr eth1
+docker swarm join-token worker
+docker node ls
+docker network ls
+
+docker service ls
+docker service ps marines
+
 
