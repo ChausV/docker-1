@@ -1,0 +1,2 @@
+apt-get update && apt-get upgrade -y && apt-get upgrade apt
+apt-get install nano && apt-get install gcc -y && apt-get install man -y && apt-get install git -y

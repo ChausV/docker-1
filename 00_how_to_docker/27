@@ -1,0 +1,1 @@
+docker service logs -f --no-task-ids --tail 10 -t $(docker service ps engineering-bay --quiet | tail -n 1)

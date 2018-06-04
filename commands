@@ -54,17 +54,15 @@ docker volume ls
 docker rm $(docker ps -a -f status=exited -q)
 
 docker start -i debian
-	apt-get update && apt-get upgrade -y
-	apt-get upgrade apt
-	apt-get install nano
-	apt-get install gcc -y
-	apt-get install man -y
-	apt-get install git
+	apt-get update && apt-get upgrade -y && apt-get upgrade apt
+	apt-get install nano && apt-get install gcc -y && apt-get install man -y && apt-get install git -y
 	git clone https://github.com/ChausV/docker_test.git 1-gihub
+	gcc -Wall -Wextra -Werror hello.c -o a
+	git config --global user.email "chausv@i.ua"
+	git config --global user.name "chausv"
 
 docker exec spawning-pool env
 docker logs -f lair
-
 docker start -i Abathur
 	pip install flask
 	python root/010-docker-github/hello.py
@@ -74,6 +72,8 @@ curl "http://192.168.99.100:3000"
 
 docker swarm init --advertise-addr eth1
 docker swarm join-token worker
+	eval $(docker-machine env Aiur)
+
 docker node ls
 docker network ls
 

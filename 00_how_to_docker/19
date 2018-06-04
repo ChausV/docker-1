@@ -1,0 +1,4 @@
+docker run --name Abathur -v /Users/vchaus/:/root -p $(docker-machine ip Char):3000:3000 -it python:2-slim bash
+	   pip install flask
+	   python root/010-docker-github/hello.py
+curl "http://192.168.99.100:3000"
