@@ -1,0 +1,23 @@
+Example (Background):
+$ tar xzf teamspeak3-server-linux_x86.tar.gz
+$ cd teamspeak3-server-linux_x86
+$ ./ts3server_startscript.sh start
+
+ATTENTION!
+In some cases, the server process terminates on startup and the error message reads �Server() error
+while starting servermanager, error: instance check error�.
+
+As long as you do not use a license key we make sure you only run exactly one instance of the TS3
+server free unregistered version. We use shared memory to facilitate the communication to detect
+other running instances, which requires tmpfs to be mounted at
+/dev/shm.
+
+If you (for whatever reason) do not have this mounted, the above error will occur. To fix this
+problem, the following commands or file edits need to be done as root user (or using something like
+sudo). This is a temporary fix until your next reboot.
+
+mount -t tmpfs tmpfs /dev/shm
+
+Now, to make sure this mount is done automatically upon reboot edit the file /etc/fstab and add the
+line:
+tmpfs /dev/shm tmpfs defaults 0 0
