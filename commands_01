@@ -25,3 +25,20 @@ docker run -it --name debian debian
 docker build -t ts .
 docker run --name my_ts -p $(docker-machine ip Char):9987:9987/udp -p $(docker-machine ip Char):10011:10011 -p $(docker-machine ip Char):30033:30033 -it ts
 docker start -i my_ts
+
+
+
+docker run -it --name ruby ruby
+docker run -it --name ruby1 -p $(docker-machine ip Char):3000:3000 ruby bash
+docker start -i ruby1
+	apt-get update && apt-get upgrade -y && apt-get install sqlite3 nodejs -y
+	gem install rails
+	ruby -v && sqlite3 --version && rails --version
+	rails new blog && cd blog
+	bin/rails server
+
+	bin/rails generate controller vchaus index
+	echo '<h1>Hello, vchaus!</h1>' >> app/views/vchaus/index.html.erb
+
+
+
