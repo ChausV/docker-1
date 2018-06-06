@@ -30,15 +30,16 @@ docker start -i my_ts
 
 docker run -it --name ruby ruby
 docker run -it --name ruby1 -p $(docker-machine ip Char):3000:3000 ruby bash
-docker start -i ruby1
-	apt-get update && apt-get upgrade -y && apt-get install sqlite3 nodejs -y
-	gem install rails
+docker run -it --name ruby2 -p $(docker-machine ip Char):3000:3000 -v /Users/vchaus/010-docker-github/01_dockerfiles/ex02/rails_application/:/root ruby bash
+docker start -i ruby2
+	apt-get update && apt-get upgrade -y && apt-get install sqlite3 nodejs -y && gem install rails
 	ruby -v && sqlite3 --version && rails --version
-	rails new blog && cd blog
-	bin/rails server
+	rails new vchaus_app && cd vchaus_app && bin/rails server
 
-	bin/rails generate controller vchaus index
-	echo '<h1>Hello, vchaus!</h1>' >> app/views/vchaus/index.html.erb
+	bin/rails generate controller VChaus index
+	echo '<h1>Hello, vchaus!</h1>' >> app/views/v_chaus/index.html.erb
 
-
+	bundle install
+docker build -t rails .
+docker run -it --name rails -p $(docker-machine ip Char):3000:3000 rails
 
